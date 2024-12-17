@@ -41,6 +41,7 @@ class DataSource(models.Model):
 class Report(models.Model):
     """Report Model"""
 
+    active = models.BooleanField(default=True)
     _engine = models.CharField(
         verbose_name="Engine", max_length=50, choices=ENGINE_CHOICES
     )

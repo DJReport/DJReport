@@ -49,12 +49,9 @@ class Report(models.Model):
     file = models.FileField(upload_to="reports/")
     data_source = models.ForeignKey(
         "DataSource",
-        null=True,
-        blank=True,
         related_name="reports",
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
-    default_data = models.JSONField(default=dict, null=True, blank=True)
     cache_required = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -66,12 +63,12 @@ class Report(models.Model):
     def engine(self) -> Engine:
         return Engine(self._engine)
 
-    def render(self, dpi: int, output_format: str, **kwargs: Any) -> bytes:
-        # default data
-        data = self.default_data if self.default_data else {}
-        # get data from data source if any
-        if self.data_source:
-            data.update(self.data_source.get_data(**kwargs))
+    def render(
+        self, dpi: int, output_format: str, data: dict = None, **kwargs: Any
+    ) -> bytes:
+        # get data
+        if data is None:
+            data = self.data_source.get_data(**kwargs)
         # render
         return self.engine.render(self.file.path, data, dpi, output_format)
 

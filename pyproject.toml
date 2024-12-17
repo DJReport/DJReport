@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["djreport", "djreport.*"]
+
+[project]
+name = "djreport"
+version = "0.0.1"
+dependencies = [
+    "django>=5.1.4",
+    "djangorestframework>=3.15.2"
+]
+authors = [
+  { name="Kaveh Mehrbanian", email="mehrbaniankaveh@gmail.com" },
+]
+description = "A reusable Django app for handling reporting stuffs"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/kavehkm/DJReport"
+Documentation = "https://github.com/kavehkm/DJReport"
+Issues = "https://github.com/kavehkm/DJReport/issues"

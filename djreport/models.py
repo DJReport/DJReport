@@ -3,13 +3,13 @@ from typing import Any
 
 # dj
 from django.db import models
-from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.module_loading import import_string
 
 # internal
-from .engine import Engine, ENGINE_CHOICES
+from .conf import djreport_conf
 from .mixins import ReportDataSourceMixin
+from .engine import Engine, ENGINE_CHOICES
 
 
 class DataSource(models.Model):
@@ -21,7 +21,7 @@ class DataSource(models.Model):
     )
 
     class Meta:
-        abstract = "djreport" not in settings.INSTALLED_APPS
+        abstract = not djreport_conf.installed
 
     @cached_property
     def instance(self) -> ReportDataSourceMixin:
@@ -60,7 +60,7 @@ class Report(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        abstract = "djreport" not in settings.INSTALLED_APPS
+        abstract = not djreport_conf.installed
 
     @cached_property
     def engine(self) -> Engine:

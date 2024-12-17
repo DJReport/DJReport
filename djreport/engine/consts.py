@@ -20,6 +20,11 @@ BINS = {
 }
 
 
+# dpi
+MIN_DPI = 96
+MAX_DPI = 300
+
+
 # formats
 CSV = "csv"
 DATA = "data"

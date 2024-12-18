@@ -4,6 +4,7 @@ from django.http import HttpResponse
 
 # drf
 from rest_framework import status
+from rest_framework import renderers
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 
@@ -19,6 +20,7 @@ class RenderView(GenericAPIView):
 
     serializer_class = RenderSerializer
     queryset = Report.objects.filter(active=True)
+    renderer_classes = [renderers.JSONRenderer]
 
     @staticmethod
     def render_report(

@@ -57,6 +57,13 @@ class RenderView(GenericAPIView):
         response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
 
+    def get_data_source_params(self):
+        # convert query params into dict
+        params = self.request.query_params.dict()
+        # add current request object
+        params["request"] = self.request
+        return params
+
     def get(self, request, pk):  # noqa
         # get report
         report = self.get_object()
@@ -69,7 +76,7 @@ class RenderView(GenericAPIView):
             dpi = serializer.validated_data["dpi"]
             output_format = serializer.validated_data["output_format"]
             # get data from report.data_source
-            data = report.data_source.get_data(**request.query_params)
+            data = report.data_source.get_data(**self.get_data_source_params())
             rendered_report = self.render_report(report, data, dpi, output_format)
             return self.download_response(report.name, rendered_report, output_format)
 
